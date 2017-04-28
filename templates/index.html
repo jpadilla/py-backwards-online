@@ -76,8 +76,22 @@
               <div id="editor" class="ace_editor ace-monokai ace_dark">{{ source }}</div>
               <textarea class="source" name="source">{{ source }}</textarea>
             </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group form-inline">
+                  <label>Target</label>
+                  <select class="form-control" name="target">
+                    {% for target in targets %}
+                      <option value="{{ target }}" {% if selected_target == target %}selected{% endif %}>{{ target }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <div class="form-group form-inline">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
             </div>
           </form>
         </div>

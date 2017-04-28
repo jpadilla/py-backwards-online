@@ -57,14 +57,15 @@ SOURCE_CODE = textwrap.dedent(
 @app.route('/', methods=['POST', 'GET'])
 def index():
     source = SOURCE_CODE
+    target = request.args.get('target', '2.7')
 
     if request.method == 'POST':
         source = request.form['source']
+        target = request.form['target']
 
     try:
         path = '/tmp/file.py'
-        target = TARGETS['2.7']
-        transformed = transform(path, source, target).strip()
+        transformed = transform(path, source, TARGETS[target]).strip()
         error = None
     except Exception as exc:
         transformed = ''
@@ -73,7 +74,9 @@ def index():
     data = {
         'source': source,
         'transformed': transformed,
-        'error': error
+        'error': error,
+        'targets': TARGETS.keys(),
+        'selected_target': target
     }
 
     return render_template('index.html', **data)
