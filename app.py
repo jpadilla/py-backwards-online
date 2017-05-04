@@ -1,7 +1,7 @@
 import textwrap
 
 from flask import Flask, render_template, request
-from py_backwards.transformers import transform
+from py_backwards.compiler import _transform
 from py_backwards.const import TARGETS
 
 
@@ -65,7 +65,7 @@ def index():
 
     try:
         path = '/tmp/file.py'
-        transformed = transform(path, source, TARGETS[target]).strip()
+        transformed, _ = _transform(path, source, TARGETS[target])
         error = None
     except Exception as exc:
         transformed = ''
@@ -73,7 +73,7 @@ def index():
 
     data = {
         'source': source,
-        'transformed': transformed,
+        'transformed': transformed.strip(),
         'error': error,
         'targets': TARGETS.keys(),
         'selected_target': target
